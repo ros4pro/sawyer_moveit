@@ -18,7 +18,8 @@
   <arg name="tip_name"     if="$(arg electric_gripper)" default="right_gripper_tip"/>
   <arg name="tip_name" unless="$(arg electric_gripper)" default="right_hand"/>
 
-    <node name="jtas" pkg="intera_interface" type="joint_trajectory_action_server.py" respawn="true" output="log" />  
+  <!-- Start the JTAS for Sawyer -->
+  <node name="jtas" pkg="intera_interface" type="joint_trajectory_action_server.py" respawn="true" output="log" />  
 
 
   <!-- Add planning context launch file -->
