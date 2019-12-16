@@ -15,7 +15,10 @@
   <arg name="robot_description" default="robot_description"/>
 
   <!-- Load universal robot description format (URDF) FIXME when composable URDF -->
-  <param if="$(arg load_robot_description)" name="$(arg robot_description)" textfile="$(find sawyer_description)/urdf/sawyer.urdf"/>
+  <param if="$(arg load_robot_description)" name="robot_description"
+      command="$(find xacro)/xacro $(find sawyer_description)/urdf/sawyer.urdf.xacro
+      gazebo:=false electric_gripper:=$(arg electric_gripper)
+      pedestal:=$(arg controller_box) static:=true"/>
 
   <!-- The semantic description that corresponds to the URDF -->
   <param name="robot_description_semantic"

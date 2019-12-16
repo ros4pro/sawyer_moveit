@@ -70,4 +70,9 @@
     <param name="planning_scene_monitor/publish_transforms_updates" value="$(arg publish_monitored_planning_scene)" />
   </node>
 
+  <!-- convert joint states to TF transforms -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" if="$(arg fake_execution)">
+    <remap from="/joint_states" to="/robot/joint_states" />
+  </node>
+
 </launch>
