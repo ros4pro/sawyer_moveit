@@ -7,11 +7,11 @@
   <arg name="db" default="false" />
   <!-- By default, we are not in debug mode -->
   <arg name="debug" default="false" />
-  <!-- By default, we do not start fake execution motor controllers -->
-  <arg name="fake_execution" default="false"/>
+  <!-- By default, we do start fake execution motor controllers -->
+  <arg name="simulate" default="true"/>
 
-  <!-- By default we do not overwrite the URDF. Change the following to true to change the default behavior -->
-  <arg name="load_robot_description" default="$(arg fake_execution)"/>
+  <!-- By default we do overwrite the URDF. Change the following to true to change the default behavior -->
+  <arg name="load_robot_description" default="$(arg simulate)"/>
   <!-- Add controller box collision shape to check for link collisions if set to true-->
   <arg name="controller_box" default="false"/>
   <!-- Left and electric gripper arg. Set to true to check for collisions for their links -->
@@ -21,10 +21,10 @@
   <arg name="tip_name" unless="$(arg electric_gripper)" default="right_hand"/>
 
   <!-- Start the JTAS for Sawyer -->
-  <node name="jtas" pkg="intera_interface" type="joint_trajectory_action_server.py" respawn="true" output="log" unless="$(arg fake_execution)"/>  
+  <node name="jtas" pkg="intera_interface" type="joint_trajectory_action_server.py" respawn="true" output="log" unless="$(arg simulate)"/>  
 
   <!-- Or start the fake trajectory -->
-  <node name="jspub" pkg="ros4pro" type="joint_state_publisher.py" respawn="true" output="log" if="$(arg fake_execution)"/>  
+  <node name="jspub" pkg="ros4pro" type="joint_state_publisher.py" respawn="true" output="log" if="$(arg simulate)"/>  
 
   <!-- Add planning context launch file -->
   <include file="$(find sawyer_moveit_config)/launch/planning_context.launch">
@@ -42,7 +42,7 @@
     <arg name="xtion" value="$(arg xtion)" />
     <arg name="camera_link_pose" default="$(arg camera_link_pose)"/>
     <arg name="allow_trajectory_execution" value="true"/>
-    <arg name="fake_execution" value="$(arg fake_execution)"/>
+    <arg name="fake_execution" value="$(arg simulate)"/>
     <arg name="info" value="true"/>
     <arg name="debug" value="$(arg debug)"/>
   </include>
